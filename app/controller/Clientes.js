@@ -1,8 +1,8 @@
-Ext.define('NL.controller.Principal', {
+Ext.define('NL.controller.Clientes', {
 
     extend: 'Ext.app.Controller',
     
-    views:[],
+    views:['clientes.MenuClientes'],
 
     init: function() {
         

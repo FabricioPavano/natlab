@@ -1,10 +1,11 @@
 Ext.application({
-    requires: ['Ext.container.Viewport'],
+    requires: ['Ext.container.Viewport',
+               'Ext.window.MessageBox'],
 
     name: 'NL',
     appFolder: 'app',
 
-    controllers: ['Principal'],
+    controllers: ['Principal', 'Productos','Clientes','Facturacion','Estadisticas'],
     
     launch: function() {
         Ext.create('Ext.container.Viewport', {
@@ -21,23 +22,16 @@ Ext.application({
                     animate: true,
                 },
                 items:[{
-                    title:'Productos',
-                    layout:'anchor',
-                    items:[{
-                        xtype:'button',
-                        anchor:'100%',
-                        text:'<span class="letra-grande">Listar Productos</span>',
-                        scale:'large'
-                    }]
+                    xtype:'menuproductos'
                 },
                 {
-                    title:'Clientes'
+                    xtype:'menuclientes'
                 },
                 {
-                    title:'Facturacion'
+                    xtype:'menufacturacion'
                 },
                 {
-                    title:'Estadisticas'
+                    xtype:'menuestadisticas'
                 }]
             },
             {
