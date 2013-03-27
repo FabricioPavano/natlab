@@ -3,7 +3,7 @@ Ext.application({
                'Ext.window.MessageBox'],
 
     name: 'NL',
-    appFolder: 'app',
+    appFolder: 'interfaz',
 
     controllers: ['Principal', 'Productos','Clientes','Facturacion','Estadisticas'],
     
@@ -36,7 +36,7 @@ Ext.application({
             },
             {
                 region: 'center',
-                title: 'centro'
+                layout:'card'
             }]
 
         })
