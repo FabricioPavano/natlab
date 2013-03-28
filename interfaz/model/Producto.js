@@ -1,4 +1,8 @@
 Ext.define('NL.model.Producto', {
     extend: 'Ext.data.Model',
-    fields: ['nombre', 'precio', 'stock']
+    fields: [
+    {name:'nombre'},
+    {name:'precio', type:'int'},
+    {name:'stock',  type:'int'}]
 });
+
