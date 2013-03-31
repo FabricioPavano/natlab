@@ -2,12 +2,12 @@
     extend: 'Ext.data.Store',
     model: 'NL.model.Producto',
     autoLoad: true,
-
     proxy: {
       type: 'ajax',
       api: {
-        read: SITE_URL + '/productos/buscar' 
-      }
+        read: SITE_URL + '/productos/buscar', 
+        update: SITE_URL + '/productos/editar'
+      },
     }
   });
 

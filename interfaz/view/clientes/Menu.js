@@ -9,9 +9,7 @@ Ext.define('NL.view.clientes.Menu',{
     anchor:'100%',
     text:'<span class="letra-grande">Listar Clientes</span>',
     scale:'large',
-    handler:function(){
-      Ext.MessageBox.alert('Alerta!', 'Funcionaldad no implementada');
-    }
+    target:'listar'
   },
   {
     xtype:'button',

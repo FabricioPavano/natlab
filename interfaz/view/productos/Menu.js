@@ -9,17 +9,13 @@ Ext.define('NL.view.productos.Menu',{
     anchor:'100%',
     text:'<span class="letra-grande">Listar Productos</span>',
     scale:'large',
-    handler:function(){
-      Ext.MessageBox.alert('Alerta!', 'Funcionaldad no implementada');
-    }
+    target:'listar'
   },
   {
     xtype:'button',
     anchor:'100%',
     text:'<span class="letra-grande">Nuevo Producto</span>',
     scale:'large',
-    handler:function(){
-      Ext.MessageBox.alert('Alerta!', 'Funcionaldad no implementada');
-    }
+    target:'crear'
   }]
 })
