@@ -11,24 +11,8 @@ class Productos extends CI_Controller {
       //cargamos la configuracion
       require('application/third_party/redbeans/setup.php');
 
-      R::wipe('producto');
-
-      $nombresProductos = array('Aflamin', 'Atlaten', 'Artritil', 'Bilaxan', 'Fungos',
-      'Gastricol', 'Hedisbral', 'Flebivar', 'Regumes', 'Viadiges', 'Progresovar', 
-      'Prostafilen', 'Nobetil', 'Nocotin', 'Panacea Pulmonar', 'Lisicalren');
-
-
-      foreach($nombresProductos as $nombreProducto){
-
-        $producto = R::dispense('producto');
-        $producto->nombre = $nombreProducto;
-        $producto->precio = rand(1,70);
-        $producto->stock  = rand(1,100);
-
-        R::store($producto);
-
-      }
-
+      //clase con utilidades de RedBeans
+      require('application/third_party/redbeans/UtilRb.php');    
       
       //llamamos a la funcion correspondiente
       $this->$method($params);
@@ -44,17 +28,10 @@ class Productos extends CI_Controller {
 
       $datos = $_POST;
 
-      $producto = R::load('producto', $datos['id']);  
+      $registro = UtilRb::editarRegistro('producto', $datos);
 
-      foreach($datos as $propiedad => $valor){
-        $producto->$propiedad = $valor;
-      }
-
-      R::store($producto);
-
-      $this->output->set_output('Item con id ' . $producto['id'] . 
+      $this->output->set_output('Item con id ' . $registro['id'] . 
         ' editado satisfactoriamente');
-      
       
     }
 

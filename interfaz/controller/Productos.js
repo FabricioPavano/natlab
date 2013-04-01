@@ -22,9 +22,6 @@ Ext.define('NL.controller.Productos', {
            },
            'formularioproductos button[action=guardar]': {
                click: this.guardarEdicionProducto
-           },
-           'ventanastock button[action=guardar]':{
-               click: this.guardarEdicionProducto           
            }
        });
     },
@@ -39,7 +36,12 @@ Ext.define('NL.controller.Productos', {
     },
 
     abrirFormularioEdicionProducto: function(grid, record) {
-        var view = Ext.widget('formularioproductos', {edicion:true});
+        var view = Ext.widget('formularioproductos',
+         {
+          edicion:true,
+          record:record
+         });
+        
         view.down('form').loadRecord(record);
     },
 

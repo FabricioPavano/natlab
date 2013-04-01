@@ -5,6 +5,7 @@ Ext.define('NL.model.Cliente', {
     {name:'nombre'   },
     {name:'domicilio'},
     {name:'ciudad'   },
+    {name:'estado'   },
     {name:'telefono',  type:'int'},
     {name:'rif'     ,  type:'int'}]
 });

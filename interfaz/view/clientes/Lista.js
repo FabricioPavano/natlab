@@ -11,6 +11,9 @@ var filtrosClientes = {
         dataIndex: 'domicilio'
     },{
         type: 'string',
+        dataIndex: 'estado'
+    },{
+        type: 'string',
         dataIndex: 'ciudad'
     },{
         type: 'string',
@@ -41,6 +44,11 @@ Ext.define('NL.view.clientes.Lista' ,{
           header: 'Domicilio',
           dataIndex: 'domicilio',
           flex: 1
+        },
+        {
+          header: 'Estado',
+          dataIndex: 'estado',
+          flex: 0.4
         },
         {
           header: 'Ciudad',
@@ -89,7 +97,7 @@ Ext.define('NL.view.clientes.Lista' ,{
                 }
               }    
 
-              Ext.MessageBox.confirm('Confirmar', 'Seguro desea eliminar al cliente' + 
+              Ext.MessageBox.confirm('Confirmar', 'Seguro desea eliminar al cliente ' + 
                 nombreCliente + ' de la base de datos?' , borrarCliente);
            }
     }]

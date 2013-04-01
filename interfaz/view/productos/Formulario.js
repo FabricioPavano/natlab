@@ -6,8 +6,18 @@ Ext.define('NL.view.productos.Formulario', {
     layout: 'fit',
     autoShow:true,
     edicion:false,
+    headerPosition:'left',
+    plain:true,
+    edicion:false,
+
 
     initComponent: function() {
+        
+        if(this.edicion == false)
+            this.title = 'Nuevo Producto'
+        else
+            this.title = 'Editar Producto'
+
         this.items = [
             {
                 xtype: 'form',

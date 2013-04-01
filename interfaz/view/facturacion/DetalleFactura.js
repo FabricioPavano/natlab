@@ -1,0 +1,32 @@
+Ext.define('NL.view.facturacion.DetalleFactura',{
+  extend:'Ext.grid.Panel',
+  store: Ext.StoreManager.lookup('DetalleFactura'),
+  alias:'widget.griddetallefactura',
+  height:200,
+  columns: [
+          { 
+            dataIndex:'id',
+            hidden:true
+          },
+          { 
+            text:'Cant.',
+            dataIndex:'cantidad',
+            flex:0.3
+          },
+          { 
+            text:'Producto',
+            dataIndex:'producto',
+            flex:1
+          },
+          { 
+            text:'P.U',
+            dataIndex:'precio_unitario',
+            flex:0.3
+          },
+          {
+            text:'Subtotal',
+            dataIndex:'subtotal',
+            flex:0.3
+          }
+      ]  
+})

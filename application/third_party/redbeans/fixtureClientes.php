@@ -27,6 +27,12 @@ $arrayCiudades = array(
   'San Cristobal'
 );
 
+$arrayEstados = array(
+  'Tachira',
+  'Huila',
+  'Carabobo'
+);
+
 $i = 0;
 
 foreach($arrayNombres as $nombreCliente){
@@ -37,6 +43,7 @@ foreach($arrayNombres as $nombreCliente){
   $cliente->nombre = $nombreCliente;
   $cliente->domicilio = $arrayDomicilios[$i];
   $cliente->ciudad    = $arrayCiudades[rand(0,3)];
+  $cliente->estado    = $arrayEstados[rand(0,2)];
   $cliente->telefono  = rand(5000000,5999999);
   $cliente->rif       = rand(1111,9999);
 
