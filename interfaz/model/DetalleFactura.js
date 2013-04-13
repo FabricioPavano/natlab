@@ -1,11 +1,11 @@
 Ext.define('NL.model.DetalleFactura', {
     extend: 'Ext.data.Model',
+    idProperty: 'producto_id',    
     fields: [
-    {name:'id'       },
     {name:'cantidad' },
     {name:'producto_id'     },
     {name:'producto_nombre' },
-    {name:'producto_precio' },
+    {name:'precio'          },
     {name:'subtotal'        }]
 });
 

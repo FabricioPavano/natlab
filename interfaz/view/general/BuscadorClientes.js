@@ -1,11 +1,12 @@
 Ext.define('NL.view.general.BuscadorClientes',{
-  extend      :'Ext.form.field.ComboBox',
-  alias       :'widget.buscadorclientes',
-  displayField:'nombre',
-  valueField  :'id',
-  queryMode: 'local',
-  typeAhead   : true,
-  forceSelection:true,
+  extend         :'Ext.form.field.ComboBox',
+  alias          :'widget.buscadorclientes',
+  displayField   :'nombre',
+  valueField     :'id',
+  queryMode      :'local',
+  typeAhead      :true,
+  typeAheadDelay :0, 
+  forceSelection :true,
   listConfig: {
     loadingText: 'Buscando...',
     emptyText: 'No hay clientes con ese nombre...'

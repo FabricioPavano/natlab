@@ -33,14 +33,17 @@ Ext.define('NL.view.productos.Formulario', {
                         name : 'nombre',
                         fieldLabel: 'Nombre',
                         allowBlank:false
-                    },
-                    {
+                    },{
                         xtype: 'numberfield',
-                        name : 'precio',
-                        fieldLabel: 'Precio',
+                        name : 'precio_mayorista',
+                        fieldLabel: 'Precio Mayorista',
                         allowBlank:false
-                    },
-                    {
+                    },{
+                        xtype: 'numberfield',
+                        name : 'precio_comercial',
+                        fieldLabel: 'Precio Comercial',
+                        allowBlank:false
+                    },{
                         xtype: 'numberfield',
                         name : 'stock',
                         fieldLabel: 'Stock',
@@ -59,8 +62,7 @@ Ext.define('NL.view.productos.Formulario', {
             },
             {
                 text: 'Cancelar',
-                scope: this,
-                handler: this.close
+                action: 'cancelar'
             }
         ];
 

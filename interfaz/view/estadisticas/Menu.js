@@ -8,20 +8,19 @@ Ext.define('NL.view.estadisticas.Menu',{
   {
     xtype:'button',
     anchor:'100%',
-    text:'<span class="letra-grande">Generales</span>',
-    scale:'large',
-    handler:function(){
-      Ext.MessageBox.alert('Alerta!', 'Funcionaldad no implementada');
-    }
-  },
-  {
-    xtype:'button',
-    anchor:'100%',
     text:'<span class="letra-grande">Por Producto</span>',
     scale:'large',
-    handler:function(){
-      Ext.MessageBox.alert('Alerta!', 'Funcionaldad no implementada');
-    }
+    menu: [
+        {
+          xtype:'buscadorclientes',
+          emptyText:'Elige un cliente',
+          listeners:{
+            beforerender:function(buscador){
+              buscador.setWidth(Ext.getCmp('west-panel').getWidth() - 30);
+            }
+          }
+        }
+    ]
   },
   {
     xtype:'button',

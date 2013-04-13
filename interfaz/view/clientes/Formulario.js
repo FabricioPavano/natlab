@@ -11,15 +11,8 @@ Ext.define('NL.view.clientes.Formulario', {
 
     initComponent: function() {
         
-        if(this.edicion == false)
-            this.title = 'Nuevo Cliente'
-        else
-            this.title = 'Editar Cliente ' + this.record.get('nombre')
 
-
-        this.items = [
-            {
-                xtype: 'form',
+        var formClientes = Ext.create('Ext.form.Panel',{
                 defaults: {
                     padding: '10 20 10 20'
                 }, 
@@ -66,10 +59,22 @@ Ext.define('NL.view.clientes.Formulario', {
                         name:'rif',
                         fieldLabel:'Rif',
                         allowBlank:true
+                    },{
+                        xtype: 'radiogroup',
+                        name: 'tipo_cliente',
+                        fieldLabel: 'Tipo Cliente',
+                        cls: 'x-check-group-alt',
+                        columns:1,
+                        items: [
+                            {boxLabel: 'Minorista', name: 'minorista', inputValue: 1},
+                            {boxLabel: 'Mayorista', name: 'minorista', inputValue: 0}
+                        ]
                     }
                 ]
-            }
-        ];
+            })    
+
+
+        this.items = [ formClientes ];
 
         this.buttons = [
             {
@@ -82,6 +87,19 @@ Ext.define('NL.view.clientes.Formulario', {
                 handler: this.close
             }
         ];
+
+
+         if(this.edicion == false)
+            this.title = 'Nuevo Cliente'
+         else {
+            this.title = 'Editar Cliente ' + this.record.get('nombre');
+            
+            console.log(this.record)
+
+            formClientes.getForm().findField('tipo_cliente')
+               .setValue({minorista:this.record.get('minorista')})
+         
+         }
 
         this.callParent(arguments);
     }

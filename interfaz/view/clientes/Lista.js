@@ -21,6 +21,9 @@ var filtrosClientes = {
     },{
         type: 'string',
         dataIndex: 'rif'
+    },{
+        type: 'boolean',
+        dataIndex: 'minorista'
     }]
 };
 
@@ -56,7 +59,7 @@ Ext.define('NL.view.clientes.Lista' ,{
           flex: 0.4
         },
         {
-          header: 'Telefono',
+          header: 'Tel',
           dataIndex: 'telefono',
           flex: 0.4
         },
@@ -64,6 +67,19 @@ Ext.define('NL.view.clientes.Lista' ,{
           header: 'Rif',
           dataIndex: 'rif',
           flex: 0.4
+        },
+        {
+          header: 'Tip ',
+          dataIndex: 'minorista',
+          flex: 0.4,
+          renderer:function(value){
+            if (value == '0')
+              return 'Mayorista'
+            if (value == '1')
+              return 'Minorista'
+            else
+              return 'No especificado'
+          }
         },
         {
           xtype:'actioncolumn',

@@ -14,6 +14,8 @@ class Productos extends CI_Controller {
       //clase con utilidades de RedBeans
       require('application/third_party/redbeans/UtilRb.php');    
       
+      
+
       //llamamos a la funcion correspondiente
       $this->$method($params);
     }

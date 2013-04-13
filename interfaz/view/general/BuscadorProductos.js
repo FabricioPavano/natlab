@@ -31,5 +31,7 @@ Ext.define('NL.view.general.BuscadorProductos',{
 
       },3000);
     }
+
+    
   }
 })

@@ -10,9 +10,11 @@ var filtrosProductos = {
         dataIndex: 'nombre'
     }, {
         type: 'numeric',
-        dataIndex: 'precio'
-
+        dataIndex: 'precio_mayorista',
     }, {
+        type: 'numeric',
+        dataIndex: 'precio_comercial',
+    },{
         type: 'numeric',
         dataIndex: 'stock'
     }]
@@ -35,14 +37,18 @@ Ext.define('NL.view.productos.Lista' ,{
           flex: 1
         },
         { 
-          header: 'Precio',
-          dataIndex: 'precio',
+          header: 'Precio Mayorista',
+          dataIndex: 'precio_mayorista',
           flex: 0.4,
           xtype:'numbercolumn',
           format: '0.00 Bs.'
-          // renderer: function(value){
-          //   return value + 'Bs.'; 
-          // }
+        },
+        { 
+          header: 'Precio Comercial',
+          dataIndex: 'precio_comercial',
+          flex: 0.4,
+          xtype:'numbercolumn',
+          format: '0.00 Bs.'
         },
         {
           header: 'Stock',

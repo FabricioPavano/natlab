@@ -46,6 +46,8 @@ foreach($arrayNombres as $nombreCliente){
   $cliente->estado    = $arrayEstados[rand(0,2)];
   $cliente->telefono  = rand(5000000,5999999);
   $cliente->rif       = rand(1111,9999);
+  $cliente->minorista = rand(0,1);
+
 
   R::store($cliente);
 

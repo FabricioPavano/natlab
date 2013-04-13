@@ -29,8 +29,8 @@ Ext.define('NL.controller.Clientes', {
     abrirListaClientes:function(){
         Ext.getCmp('regionCentral').getLayout().setActiveItem('listaclientes')
     },
-    abrirFormularioCreacionCliente:function(){
-        var view = Ext.widget('formularioclientes');
+    abrirFormularioCreacionCliente:function(record){
+        var view = Ext.widget('formularioclientes',{record:record});
     },
     abrirFormularioEdicionCliente:function(grid, record){
         var view = Ext.widget('formularioclientes',

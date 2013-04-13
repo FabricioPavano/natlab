@@ -16,15 +16,15 @@ Ext.application({
     requires: ['Ext.container.Monitor',
                'Ext.container.Viewport',
                'Ext.window.MessageBox',
-               'Ext.layout.container.Border',
                'Ext.layout.container.Accordion',
+               'Ext.layout.container.Border',
                'Ext.layout.container.Card',
+               'Ext.layout.container.Column',
                'Ext.grid.column.Number',
                'Ext.grid.column.Action',
-               'Ext.form.Panel',
-               'Ext.form.FieldAncestor',
-               'Ext.form.field.Hidden',
-               'Ext.ux.grid.FiltersFeature'],
+               'Ext.ux.grid.FiltersFeature',
+               'Ext.form.*',
+               'Ext.fx.target.Element'],
 
     name: 'NL',
     appFolder: 'interfaz',
@@ -47,6 +47,7 @@ Ext.application({
             {
                 region:'west',
                 flex:0.3,
+                id:'west-panel',    
                 layout:{
                     type: 'accordion',
                     titleCollapse: true,

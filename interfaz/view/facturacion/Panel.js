@@ -1,5 +1,6 @@
 Ext.define('NL.view.facturacion.Panel',{
   extend:'Ext.form.Panel',
+  id:'formFacturacion',
   alias:'widget.panelfacturacion',
   defaults: {
       margin: '20 40 20 40',
@@ -7,6 +8,7 @@ Ext.define('NL.view.facturacion.Panel',{
       anchor:'100%'
   }, 
   title:'Armado de Facturas',
+
   items:[{
     xtype:'fieldset',
     title: '<strong>Cliente</strong>',
@@ -34,7 +36,9 @@ Ext.define('NL.view.facturacion.Panel',{
                     xtype:'buscadorproductos',
                     columnWidth: 0.6
                   },{
-                    xtype:'textfield',
+                    xtype:'numberfield',
+                    allowDecimals:false,
+                    hideTrigger:true,
                     fieldLabel:'Cantidad',
                     name:'cantidad',
                     columnWidth: 0.4,
@@ -51,7 +55,74 @@ Ext.define('NL.view.facturacion.Panel',{
   },{
     xtype:'fieldset',
     title: '<strong>Otros Datos</strong>',
-    layout: 'anchor'
+    layout: 'anchor',
+    anchor:'100%',
+    items:[{
+      xtype:'checkboxfield',
+      boxLabel:'<strong>Contado</strong>',
+      name:'contado'
+    },
+    {
+      xtype:'panel',
+      margin: '5 0 0 0',
+      border:false,
+      layout:'column',
+      items:[
+          {
+            xtype:'checkboxfield',
+            boxLabel:'<strong>Credito</strong>',
+            name:'credito',
+            columnWidth:0.2
+          },{
+            xtype:'textfield',
+
+            fieldLabel:'Dias',
+            labelAlign: 'right',
+            labelWidth: 50,
+            width:'200',
+            name:'credito_dias',
+            columnWidth: 0.2,
+            disabled:true
+          }
+      ]    
+    },{
+      xtype:'panel',
+      border:false,
+      layout:'column',
+      margin: '5 0 0 0',
+      items:[
+          {
+            xtype:'checkboxfield',
+            boxLabel:'<strong>Descuento</strong>',
+            name:'descuento',
+            columnWidth:0.2
+          },{
+            xtype:'textfield',
+            fieldLabel:'Bs.',
+            labelAlign: 'right',
+            labelWidth: 50,
+            width:'200',
+            name:'descuento_monto',
+            columnWidth: 0.2,
+            disabled:true
+          }
+      ]    
+    }
+    ]
+  }],
+  initComponent:function(){
+    this.buttons = [
+        {
+            text: 'Facturar',
+            target: 'facturar'
+        },
+        {
+            text: 'Cancelar',
+            target: 'cancelar'
+        }
+    ];
+
+    this.callParent(arguments);
   }
-  ]
+
 })
