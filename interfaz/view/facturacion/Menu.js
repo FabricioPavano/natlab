@@ -10,9 +10,8 @@ Ext.define('NL.view.facturacion.Menu',{
     text:'<span class="letra-grande">Crear Factura</span>',
     scale:'large',
     target:'crear',
-    handler: function() {
-        window.open(SITE_URL + '/facturacion/crearFactura', '_blank');
-    }
+    
+
     
   }]
 })

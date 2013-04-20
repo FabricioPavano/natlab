@@ -72,13 +72,13 @@ Ext.application({
                 id:'regionCentral',
                 items:[
                 {
-                    xtype:'panelfacturacion'
-                },
-                {
                     xtype:'listaproductos'
                 },
                 {
                     xtype:'listaclientes'
+                },
+                {
+                    xtype:'panelfacturacion'
                 }
                 ]
             }]

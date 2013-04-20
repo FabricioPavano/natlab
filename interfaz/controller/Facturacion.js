@@ -4,7 +4,8 @@ Ext.define('NL.controller.Facturacion', {
     
     models: ['DetalleFactura'],
 
-    stores: ['DetallesFacturas'],
+    stores: ['DetallesFacturas',
+             'Productos'],
 
     views:['facturacion.Menu',
            'facturacion.Panel',
@@ -30,10 +31,13 @@ Ext.define('NL.controller.Facturacion', {
               specialkey: this.agregarDetalle
           },
           'panelfacturacion checkboxfield[name=credito]': {
-              change: this.manejoTextfieldCredito
+              change: this.manejoTextfield
           },
           'panelfacturacion checkboxfield[name=descuento]': {
-              change: this.manejoTextfieldDescuento
+              change: this.manejoTextfield
+          },
+          'panelfacturacion checkboxfield[name=iva]': {
+              change: this.manejoTextfield
           },
           'panelfacturacion button[target=facturar]': {
               click: function(){
@@ -53,7 +57,7 @@ Ext.define('NL.controller.Facturacion', {
 
 
     abrirFormularioCreacionFactura: function(button){
-      Ext.getCmp('regionCentral').getLayout().setActiveItem('panelfacturacion')        
+      Ext.getCmp('regionCentral').getLayout().setActiveItem(2);        
     },
 
     clienteSeleccionado: function(combo, record){
@@ -99,6 +103,8 @@ Ext.define('NL.controller.Facturacion', {
     //y luego deja el foco nuevamente en el combo de productos
     agregarDetalle: function(numberfield, e){
        
+
+
       var keycode = e.getKey();
 
       //Solo continuamos en caso de que se haya
@@ -111,6 +117,7 @@ Ext.define('NL.controller.Facturacion', {
       //para calcular del detalle
 
       var grid = Ext.ComponentQuery.query('panelfacturacion griddetallefactura')[0]
+
 
 
       var detalleFactura = Ext.create('NL.model.DetalleFactura');
@@ -183,6 +190,27 @@ Ext.define('NL.controller.Facturacion', {
         return
       }
 
+      //validamos que haya stock suficiente
+      if(!this.revisarStock(producto_id, numberfield.getValue())){
+        Ext.Msg.show({
+             title:'Advertencia',
+             msg: 'No tiene stock suficiente de este producto',
+             buttons: Ext.Msg.OK,
+             icon: Ext.Msg.WARNING
+        });
+
+        return 
+      }
+
+      //validamos que no se haya agregado mas de 20 productos
+      if(grid.getStore().getCount() >= 20){
+        Ext.Msg.show({
+             title:'Advertencia',
+             msg: 'Solo puede agregar hasta 20 productos por venta',
+             buttons: Ext.Msg.OK,
+             icon: Ext.Msg.WARNING
+        });
+      }
 
 
       var cliente  = storeClientes.getById(cliente_id); 
@@ -226,21 +254,14 @@ Ext.define('NL.controller.Facturacion', {
 
     },
 
-    manejoTextfieldCredito: function(checkbox){
-      var textfield = checkbox.next();
-
-      if(checkbox.getValue()){
-        textfield.enable();
-        textfield.focus();  
-      }
-      else{
-        textfield.reset();
-        textfield.disable();
-      }
-
+    //revisa que haya stock suficiente antes de agregar producto al detalle
+    revisarStock: function(producto_id, cantidad_a_facturar){
+      var stock = this.getProductosStore().getById(producto_id).get('stock');
+      console.log(stock);
+      return stock >= cantidad_a_facturar; 
     },
 
-    manejoTextfieldDescuento: function(checkbox){
+    manejoTextfield: function(checkbox){
       var textfield = checkbox.next();
 
       if(checkbox.getValue()){
@@ -251,7 +272,6 @@ Ext.define('NL.controller.Facturacion', {
         textfield.reset();
         textfield.disable();
       }
-        
 
     },
 
@@ -260,11 +280,7 @@ Ext.define('NL.controller.Facturacion', {
       
       var storeProductos = form.down('grid').getStore();
 
-      //Validamos los datos primero
       
-      if(!this.validarDatosFacturacion(form)){
-        return  
-      };
 
       var datos = {};
 
@@ -321,14 +337,26 @@ Ext.define('NL.controller.Facturacion', {
         datos.descuento = '0';
       }
 
-      return datos;
+      //Tiene iva?
+      if(!form.getForm().findField('iva_porcentaje').isDisabled()){
+        var iva_porcentaje = form.getForm().findField('iva_porcentaje').getValue();
+        datos.iva = '1';
+        datos.iva_porcentaje = iva_porcentaje;
+      }
+      else{
+        datos.iva = '0';
+        datos.iva_porcentaje = '0';
+      }
 
+      return datos;
+      
     },
 
     borrarDatosFacturacion: function(button){
       
+
       //borramos los campos
-      var form = button.up('form');
+      var form = Ext.getCmp('formFacturacion');
       form.getForm().reset();  
       
       //vaciamos el grid
@@ -338,13 +366,18 @@ Ext.define('NL.controller.Facturacion', {
       //deshabilitamos los textfields que corresponden
       form.down('textfield[name=descuento_monto]').disable();
       form.down('textfield[name=credito_dias]'   ).disable();
-      
+      form.down('textfield[name=iva_porcentaje]'   ).disable();
+
+      //cargamos los nuevos datos de productos (nuevos stocks)
+      this.getProductosStore().load();
+
     },
 
     //Valida y muestra los datos de error en caso de ser necesario
     validarDatosFacturacion: function(form){
-      ////Validamos el cliente
       
+
+      ////Validamos el cliente
       var comboClientes = 
         Ext.ComponentQuery.query('panelfacturacion buscadorclientes')[0];
 
@@ -411,7 +444,22 @@ Ext.define('NL.controller.Facturacion', {
         }
       }
 
+      ////validamos que si el checkbox de iva esta marcado
+      ////se haya ingresado  el monto del mismo
 
+      if(!form.getForm().findField('iva_porcentaje').isDisabled()){
+        var porcentaje_monto = form.getForm().findField('iva_porcentaje').getValue();
+        if(porcentaje_monto == ''){
+          Ext.Msg.show({
+               title:'Advertencia',
+               msg: 'Debe ingresar el porcentaje del iva',
+               buttons: Ext.Msg.OK,
+               icon: Ext.Msg.WARNING
+          });
+
+          return false  
+        }
+      }
 
       //// si ha pasado las validaciones devolvemos true
       return true
@@ -430,12 +478,26 @@ Ext.define('NL.controller.Facturacion', {
 
     facturar: function(button){
 
+        
+
+        var form = Ext.getCmp('formFacturacion');
+
+        //Validamos los datos primero
+        if(!this.validarDatosFacturacion(form)){
+          return  
+        };  
+
+        //tomamos los datos de la factura
+        var datos = this.reunirDatosFacturacion(form)
+        
+
+        //tomamos que tipo de reporte se hara
         var value = button.up('window').down('radiogroup').getChecked()[0];
         value = value.name;
 
-        var form = Ext.getCmp('formFacturacion');
-        var datos = this.reunirDatosFacturacion(form)
         
+        button.up('window').destroy();
+
         if(value == 'factura'){
           document.getElementById('form_facturacion')
             .action = 'index.php/facturacion/crearFactura';
@@ -451,13 +513,11 @@ Ext.define('NL.controller.Facturacion', {
             .action = 'index.php/facturacion/crearVenta';    
         }
 
-        
-
         document.getElementById('postData').value = Ext.JSON.encode(datos);                
 
         document.getElementById('form_facturacion').submit();
 
-        //this.borrarDatosFacturacion()
+        this.borrarDatosFacturacion()
 
       }
 });

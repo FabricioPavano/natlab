@@ -62,7 +62,8 @@ Ext.define('NL.view.productos.Formulario', {
             },
             {
                 text: 'Cancelar',
-                action: 'cancelar'
+                scope: this,
+                handler: this.close
             }
         ];
 

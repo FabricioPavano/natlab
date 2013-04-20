@@ -163,6 +163,15 @@ class Reportes{
       $credito_dias = '';
     }
 
+    if($datos->iva == '1'){
+      $iva = true;
+      $iva_porcentaje = $datos->iva_porcentaje;
+    }
+    else{
+      $iva = '';
+      $iva_porcentaje = '';
+    }
+
     //Creamos el pdf que contiene el formato del presupuesto  
 
     //Cell (Width,Height,TExt,Border,Ln, Align)
@@ -183,76 +192,124 @@ class Reportes{
       $pdf->SetFont('Arial','B',14);
     }
 
+    function colorAzul($pdf){
+        $pdf->setTextColor(0,0,255);
+    }
+
+    function colorRojo($pdf){
+        $pdf->setTextColor(255,00,0);
+    }    
+
+    function colorNegro($pdf){
+        $pdf->setTextColor(0);
+    }
+
+    function colorVerde($pdf){
+
+        #00CD00
+        $pdf->setTextColor(0,205,0);
+    }
+
+    function colorAmarillo($pdf){
+
+        #00CD00
+        $pdf->setTextColor(252,     163 ,    17 );
+    }
+
 
     letraNormal($pdf);
 
-    $pdf->setXY(10,20);   
+    $pdf->setXY(20,20);   
     
 
     //Colocamos la fecha
+    
+    letraNormal($pdf);
     $pdf->Cell(15,7 ,'Fecha', 0 , 0, 'C');
+    
+    colorRojo($pdf);
     $pdf->Cell(10,7 ,date('d'), 1 , 0, 'C');
     $pdf->Cell(11,7 ,date('m'), 1 , 0, 'C');
     $pdf->Cell(15,7 ,date('Y'), 1 , 0, 'C');
 
 
+    
+    
     //Numero de Presupuesto
-    $pdf->setX($pdf->getX() + 10);
+    $pdf->setX($pdf->getX() + 40);
 
-    letraMayor($pdf);
+    colorNegro($pdf);
+    letraNormal($pdf);
+
     $pdf->Cell(50,7 , 'Presupuesto Nro:', 0 , 0, 'C');    
+
+    colorRojo($pdf);
+
     $pdf->Cell(28,7 , $datos->numero_presupuesto , 1 , 2, 'C');
+
 
     //Nombre o Razon Social
 
+    colorNegro($pdf);
+    $pdf->setXY(20,$pdf->getY() + 3);
 
-    $pdf->setXY(10,$pdf->getY() + 3);
-    $pdf->Cell(30,7 , 'Nombre:', 'LTB' , 0, 'C');    
-    $pdf->Cell(110,7 , $cliente->nombre, 'RTB' , 1, 'C');    
-
+    letraNormal($pdf);
+    colorAzul($pdf);
+    $pdf->Cell(35,7 , 'Nombre:', 'LTB' , 0, 'L');    
+    colorVerde($pdf);
+    $pdf->Cell(135,7 , $cliente->nombre, 'RTB' , 1, 'L');    
+    colorNegro($pdf);
 
     //Direccion
 
-    $pdf->setX(40);
+    $pdf->setX(55);
     
     $principio = $pdf->getY();
-    $pdf->MultiCell(110,7 , $cliente->domicilio, 'RTB' , 'C');    
+    $pdf->MultiCell(135,7 , $cliente->domicilio, 'RTB' , 'L');    
     $final = $pdf->getY();
     
     //calculamos el alto de la celda anterior para asignarselo a la direccion
     $altoCelda = $final - $principio;
 
-    $pdf->setXY(10,$pdf->getY() - $altoCelda);
-    $pdf->Cell(30,$altoCelda , 'Direccion:', 'LTB' , 2, 'C');    
+    $pdf->setXY(20,$pdf->getY() - $altoCelda);
+    colorAzul($pdf);
+    $pdf->Cell(35,$altoCelda , 'Direccion:', 'LTB' , 2, 'L');    
+    colorNegro($pdf);
 
     //Ciudad
-
-    $pdf->setX(10);
-    $pdf->Cell(30,7 , 'Ciudad:', 'LTB' , 0, 'C');    
-    $pdf->Cell(40,7 , $cliente->ciudad, 'RTB' , 0, 'C');    
+    $pdf->setX(20);
+    colorAzul($pdf);
+    $pdf->Cell(35,7 , 'Ciudad:', 'LTB' , 0, 'L');    
+    colorAmarillo($pdf);
+    $pdf->Cell(50,7 , $cliente->ciudad, 'RTB' , 0, 'L');    
+    colorNegro($pdf);
 
     //Estado
-
-    $pdf->Cell(30,7 , 'Estado:', 'LTB' , 0, 'C');    
-    $pdf->Cell(40,7 , $cliente->estado, 'RTB' , 2, 'C');    
+    colorAzul($pdf);
+    $pdf->Cell(35,7 , 'Estado:', 'LTB' , 0, 'L');    
+    colorAmarillo($pdf);
+    $pdf->Cell(50,7 , $cliente->estado, 'RTB' , 2, 'L');    
+    colorNegro($pdf);
+    
 
     //Contado?
-
-    $pdf->setXY(10,$pdf->getY() + 3);
-    $pdf->Cell(30,7 , 'Contado:', 0 , 0, 'C');    
+    $pdf->setXY(100,$pdf->getY() + 1);
+    $pdf->Cell(20,7 , 'Contado:', 0 , 0, 'L');    
+    
+    colorRojo($pdf);
     $pdf->Cell(5 ,7 , $contado , 1 , 0, 'C');    
-
+    colorNegro($pdf);
 
     //Credito?
-
     $pdf->setX($pdf->getX() + 10);
-    $pdf->Cell(30,7 , 'Credito:', 0 , 0, 'C');    
+    $pdf->Cell(20,7 , 'Credito:', 0 , 0, 'L');    
+    colorRojo($pdf);
     $pdf->Cell(5 ,7 , $credito , 1 , $credito?0:1, 'C');    
+    colorNegro($pdf);
 
     //Dias de credito
-
     if($credito == 'x'){
-      $pdf->setX($pdf->getX() + 3);
+      $pdf->setX($pdf->getX() + 8);
       $pdf->Cell(5,7 , $credito_dias, 0 , 0, 'C');
       $pdf->Cell(15,7 , 'dias', 0 , 1, 'C');
 
@@ -263,47 +320,84 @@ class Reportes{
 
     // Cabecera Tabla
 
-    $pdf->setXY(10,$pdf->getY() + 3);
-    $pdf->Cell(20,7 , 'Unid:', 1 , 0, 'C');    
-    $pdf->Cell(60,7 , 'Descripcion', 1 , 0, 'C');        
-    $pdf->Cell(30,7 , 'P.U', 1 , 0, 'C');        
-    $pdf->Cell(30,7 , 'P Tot.', 1 , 1, 'C');        
+    colorAzul($pdf);
+
+    $pdf->setXY(20,$pdf->getY() + 1);
+    $pdf->Cell(15,7 , 'Unid:', 1 , 0, 'C');    
+    $pdf->Cell(95,7 , 'Descripcion', 1 , 0, 'C');        
+    $pdf->Cell(25,7 , 'P.U', 1 , 0, 'C');        
+    $pdf->Cell(35,7 , 'P. Total', 1 , 1, 'C');        
+
+    colorNegro($pdf);
+
+    
+    //Datos Tabla
 
     $cantProductos = count($datos->productos);
-
+    $j = 0;
     foreach ($datos->productos as $producto) {
 
-      $pdf->Cell(20,7 , $producto->cantidad, 1 , 0, 'C');    
-      $pdf->Cell(60,7 , $producto->producto_nombre, 1 , 0, 'C');        
-      $pdf->Cell(30,7 , $producto->precio, 1 , 0, 'C');        
-      $pdf->Cell(30,7 , $producto->subtotal, 1 , 1, 'C');        
+      if(++$j % 2){
+        $pdf->setFillColor(225,225,225);
+      }
+      else{
+        $pdf->setFillColor(255,255,255);
+      }  
+
+      $pdf->setX(20);
+
+      letraNormal($pdf);
+
+      $pdf->Cell(15,7 , $producto->cantidad       , 1 , 0, 'C',true);    
+      $pdf->Cell(95,7 , $producto->producto_nombre, 1 , 0, 'C',true);        
+      $pdf->Cell(25,7 , $producto->precio         , 1 , 0, 'C',true);        
+      $pdf->Cell(35,7 , $producto->subtotal       , 1 , 1, 'C',true);        
+
     }
+
+    
+    //Rellenamos con celdas vacias
 
     for($i=1;$i<23-$cantProductos;$i++){
 
-      $pdf->Cell(20,7 , '', 1 , 0, 'C');    
-      $pdf->Cell(60,7 , '', 1 , 0, 'C');        
-      $pdf->Cell(30,7 , '', 1 , 0, 'C');        
-      $pdf->Cell(30,7 , '', 1 , 1, 'C'); 
+      if(++$j % 2){
+        $pdf->setFillColor(225,225,225);
+      }else{
+        $pdf->setFillColor(255,255,255);
+      }  
+
+      $pdf->setX(20);
+
+      $pdf->Cell(15,7 , '', 1 , 0, 'C',true);    
+      $pdf->Cell(95,7 , '', 1 , 0, 'C',true);        
+      $pdf->Cell(25,7 , '', 1 , 0, 'C',true);        
+      $pdf->Cell(35,7 , '', 1 , 1, 'C',true); 
 
     }
 
     //Colocamos Subtotal, Descuento y Monto total
 
-    $pdf->setX(80);
-    
-    $pdf->Cell(40,7,'Sub-Total',1, 0, 'C');
-    $pdf->Cell(30,7,$datos->montoSubTotal,1, 1, 'C');
+    $pdf->setX(20);
+    $pdf->Cell(95,28,'',1, 0, 'C');
 
-    $pdf->setX(80);
-    
-    $pdf->Cell(40,7,'Descuento',1, 0, 'C');
-    $pdf->Cell(30,7,$datos->descuento_monto,1, 1, 'C');
 
-    $pdf->setX(80);
+    $marcadorY = $pdf->gety();
+    $pdf->setX(115);
     
-    $pdf->Cell(40,7,'Total',1, 0, 'C');
-    $pdf->Cell(30,7,$datos->montoTotal,1, 1, 'C');
+
+    colorAzul($pdf);
+    $pdf->Cell(40,7,'Sub-Total',1, 2, 'C');
+    $pdf->Cell(40,7,'Descuento',1, 2, 'C');
+    $pdf->Cell(40,7,'I.V.A'    ,1, 2, 'C');
+    $pdf->Cell(40,7,'Total'    ,1, 2, 'C');
+
+    $pdf->setXY(155,$marcadorY);
+
+    colorVerde($pdf);
+    $pdf->Cell(35,7,$datos->montoSubTotal  ,1, 2, 'C');
+    $pdf->Cell(35,7,$datos->descuento_monto,1, 2, 'C');
+    $pdf->Cell(35,7,$datos->iva            ,1, 2, 'C');    
+    $pdf->Cell(35,7,$datos->montoTotal     ,1, 2, 'C');
 
 
     //devolvemos el pdf al controlador

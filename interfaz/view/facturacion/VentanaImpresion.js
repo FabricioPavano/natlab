@@ -13,7 +13,8 @@ Ext.define('NL.view.facturacion.VentanaImpresion',{
         fieldLabel:'Tipo de Impresion',
         columns:1,
         items: [
-            {boxLabel: 'Factura'    ,
+            {
+             boxLabel: 'Factura'    ,
              name: 'factura',
              //tengo que agregar estos listener porque ext no se comporta 
              //como debieria

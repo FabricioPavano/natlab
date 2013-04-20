@@ -19,19 +19,8 @@ class Facturacion extends CI_Controller {
       //decodificamos los datos
       $datos = json_decode($this->input->post('datos'));
 
-      //agregamos los montos totales al objeto de datos
-      //luego se usa para los reportes y para la B.D  
-
-      $montoSubTotal = 0;
-      
-      foreach($datos->productos as $producto){
-        $montoSubTotal = $montoSubTotal + $producto->subtotal;        
-      }
-
-      $datos->montoSubTotal = $montoSubTotal;
-      
-      $datos->montoTotal = $montoSubTotal - $datos->descuento_monto;
-
+      //hacemos algunos calculos
+      $this->calcularMontos($datos);
 
       //llamamos a la funcion correspondiente
       $this->$method($datos);
@@ -74,6 +63,11 @@ class Facturacion extends CI_Controller {
 
     private function guardarVenta($datos){
 
+    
+
+      $this->descontarStock($datos->productos);
+
+
       //cargamos el cliente
       $cliente = R::load('cliente',$datos->cliente->id);
 
@@ -86,7 +80,7 @@ class Facturacion extends CI_Controller {
       $venta->contado     = $datos->contado;     
       $venta->descuento   = $datos->descuento_monto;
       $venta->credito     = $datos->credito_dias;
-
+      $venta->iva         = $datos->iva;
 
 
       //creamos los detalles de la venta
@@ -112,5 +106,41 @@ class Facturacion extends CI_Controller {
 
 
     }
+
+    //descuenta el stock de la venta
+    private function descontarStock($productos){
+
+      foreach ($productos as $producto) {
+        $objProd = R::load('producto', $producto->producto_id);
+        $objProd->stock = $objProd->stock - $producto->cantidad;
+        R::store($objProd);
+      }
+
+    }
+
+    //agregamos los montos totales, iva, subtotales etc. al objeto de datos
+    //luego se usa para los reportes y para la B.D  
+    private function calcularMontos(&$datos){
+
+      $montoSubTotal = 0;
+      
+      foreach($datos->productos as $producto){
+        $montoSubTotal = $montoSubTotal + $producto->subtotal;        
+      }
+
+      $datos->montoSubTotal = $montoSubTotal;
+
+      $subTotalConDescuento = $montoSubTotal - $datos->descuento_monto; 
+
+      $iva =  $subTotalConDescuento / 100 * $datos->iva_porcentaje;
+      
+      $datos->iva = number_format($iva, 2);
+      
+      $datos->montoTotal = number_format($subTotalConDescuento + $iva, 2);
+
+    }
+
+
 }
 ?>
+

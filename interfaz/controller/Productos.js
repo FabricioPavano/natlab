@@ -22,13 +22,19 @@ Ext.define('NL.controller.Productos', {
            },
            'formularioproductos button[action=guardar]': {
                click: this.guardarEdicionProducto
-           }
+           },
+           'ventanastock button[action=guardar]': {
+               click: this.guardarEdicionProducto
+           },
+
+
        });
     },
 
 
     abrirListaProductos:function(){
         Ext.getCmp('regionCentral').getLayout().setActiveItem('listaproductos')
+        this.getProductosStore().load();
     },
 
     abrirFormularioCreacionProducto:function(){
