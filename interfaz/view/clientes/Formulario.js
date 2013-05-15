@@ -45,17 +45,13 @@ Ext.define('NL.view.clientes.Formulario', {
                         allowBlank:true  
                     },
                     {
-                        xtype:'numberfield',
-                        allowDecimals:false,
-                        hideTrigger:true,
+                        xtype:'textfield',
                         name:'telefono',
                         fieldLabel:'Telefono',
                         allowBlank:true
                     },
                     {
-                        xtype:'numberfield',
-                        allowDecimals:false,
-                        hideTrigger:true,
+                        xtype:'textfield',
                         name:'rif',
                         fieldLabel:'Rif',
                         allowBlank:true
@@ -65,6 +61,7 @@ Ext.define('NL.view.clientes.Formulario', {
                         fieldLabel: 'Tipo Cliente',
                         cls: 'x-check-group-alt',
                         columns:1,
+                        allowBlank:false,
                         items: [
                             {boxLabel: 'Minorista', name: 'minorista', inputValue: 1},
                             {boxLabel: 'Mayorista', name: 'minorista', inputValue: 0}

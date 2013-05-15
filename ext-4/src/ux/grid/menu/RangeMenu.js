@@ -90,7 +90,7 @@ menuItemCfgs : {
      * </pre>
      */
     menuItemCfgs : {
-        emptyText: 'Enter Number...',
+        emptyText: 'Igual a:',
         selectOnFocus: false,
         width: 155
     },
@@ -148,6 +148,58 @@ menuItemCfgs : {
                     activate: Ext.emptyFn,
                     deactivate: Ext.emptyFn
                 };
+
+            
+                if(item == 'gt'){
+
+                    var customConfig = {
+                        emptyText: 'Mayor Que',
+                        selectOnFocus: false,
+                        width: 155
+                    }
+
+                    Ext.apply(
+                        cfg,
+                        // custom configs
+                        Ext.applyIf(fields[item] || {}, fieldCfg[item]),
+                        // configurable defaults
+                        customConfig
+                    );
+
+                    Cls = cfg.fieldCls || me.fieldCls;
+                    item = fields[item] = Ext.create(Cls, cfg);
+
+
+                    me.add(item);
+                    continue
+
+                }
+
+                if(item == 'lt'){
+
+                    var customConfig = {
+                        emptyText: 'Menor Que',
+                        selectOnFocus: false,
+                        width: 155
+                    }
+
+                    Ext.apply(
+                        cfg,
+                        // custom configs
+                        Ext.applyIf(fields[item] || {}, fieldCfg[item]),
+                        // configurable defaults
+                        customConfig
+                    );
+
+                    Cls = cfg.fieldCls || me.fieldCls;
+                    item = fields[item] = Ext.create(Cls, cfg);
+
+                    
+                    me.add(item);
+                    continue
+
+                }
+
                 Ext.apply(
                     cfg,
                     // custom configs
@@ -155,9 +207,14 @@ menuItemCfgs : {
                     // configurable defaults
                     me.menuItemCfgs
                 );
+
+
                 Cls = cfg.fieldCls || me.fieldCls;
                 item = fields[item] = Ext.create(Cls, cfg);
             }
+
+
+
             me.add(item);
         }
     },

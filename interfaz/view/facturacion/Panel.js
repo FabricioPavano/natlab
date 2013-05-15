@@ -14,10 +14,9 @@ Ext.define('NL.view.facturacion.Panel',{
     title: '<strong>Cliente</strong>',
     layout: 'anchor',
     anchor:'80%',
-    items:[{
-      xtype:'buscadorclientes',
-      anchor: '75%'
-    }]
+    items:[
+      buscadorClientes
+    ]
   },{
     xtype:'fieldset',
     title: '<strong>Productos</strong>',
@@ -32,10 +31,8 @@ Ext.define('NL.view.facturacion.Panel',{
               border:false,
               layout:'column',
               items:[
-                  {
-                    xtype:'buscadorproductos',
-                    columnWidth: 0.6
-                  },{
+                  buscadorProductos
+                  ,{
                     xtype:'numberfield',
                     allowDecimals:false,
                     hideTrigger:true,

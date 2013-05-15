@@ -5,7 +5,8 @@ Ext.define('NL.controller.Facturacion', {
     models: ['DetalleFactura'],
 
     stores: ['DetallesFacturas',
-             'Productos'],
+             'Productos',
+             'Clientes'],
 
     views:['facturacion.Menu',
            'facturacion.Panel',
@@ -103,8 +104,6 @@ Ext.define('NL.controller.Facturacion', {
     //y luego deja el foco nuevamente en el combo de productos
     agregarDetalle: function(numberfield, e){
        
-
-
       var keycode = e.getKey();
 
       //Solo continuamos en caso de que se haya

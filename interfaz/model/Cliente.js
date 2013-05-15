@@ -7,7 +7,7 @@ Ext.define('NL.model.Cliente', {
     {name:'ciudad'   },
     {name:'estado'   },
     {name:'telefono',  type:'int'},
-    {name:'rif'     ,  type:'int'},
+    {name:'rif'      },
     {name:'minorista'            }]
 });
 
